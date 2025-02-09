@@ -50,8 +50,6 @@ async function main() {
 	const response = await openai.chat.completions.create({
 		model: "gemini-2.0-pro-exp-02-05",
 		messages: messages,
-		//temperature: 0,
-		//prompt: "請辨別餐廳菜單上的文字"
 	});
 
 	console.log(response.choices[0]);
