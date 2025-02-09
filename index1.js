@@ -7,7 +7,15 @@ const openai = new OpenAI({
 	baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
-const text = "這張圖片是什麼"; 
+const text = "請依照以下步驟來完成辨識菜單文字的任務\n" +
+	"1.請列點菜單上有哪些種類的產品?\n" +
+	"格式如下:\n" +
+	"1、蛋餅\n" +
+	"2、點心\n" +
+	"2.依照列出的菜單上的產品，輸出品項的名字及價格\n" +
+	"格式如下:\n" +
+	"1、蛋餅\n" +
+	"原味蛋餅 30元";
 
 async function encodeImage(imagePath) {
   try {
@@ -21,13 +29,12 @@ async function encodeImage(imagePath) {
 }
 
 async function main() {
-	const imagePath = "./image.jpg";
-	const base64Image = await encodeImage(imagePath);
+	const base64Image = await encodeImage("./image.jpg");
 
-	const messages = [
+	const messages = [+
 	{
 		"role": "system",
-		"content": "請使用繁體中文對話,並辨別餐廳菜單上的文字"
+		"content": "請使用繁體中文，並辨別餐廳菜單上的文字"
 	},
 	{
 		"role": "user",
@@ -50,6 +57,8 @@ async function main() {
 	const response = await openai.chat.completions.create({
 		model: "gemini-2.0-pro-exp-02-05",
 		messages: messages,
+		temperature:0,
+		max_tokens:1000,
 	});
 
 	console.log(response.choices[0]);
