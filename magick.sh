@@ -1,2 +1,2 @@
 #!/bin/bash
-magick ./image.jpg ./image.png
+magick image.jpg -density 300 -despeckle -sharpen 0x2 image.png

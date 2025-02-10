@@ -7,7 +7,8 @@ const openai = new OpenAI({
 	baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/"
 });
 
-const text = `請依照以下步驟來完成辨識菜單文字的任務
+const text = `
+請依照以下步驟來完成辨識菜單文字的任務
 1. 辨識菜單上有哪些種類的產品
 2. 依照列出的菜單上的產品，辨識品項的名字及價格
 3. 依照以上內容輸出json格式
@@ -22,7 +23,8 @@ const text = `請依照以下步驟來完成辨識菜單文字的任務
   ]
 }
 注意事項1:請完全依照格式來輸出
-注意事項2:只需輸出第三部分的json
+注意事項2:只需輸出第3部分的JSON
+注意事項3:不需要輸出說明及標題
 `
 
 
@@ -38,7 +40,7 @@ async function encodeImage(imagePath) {
 }
 
 async function main() {
-	const base64Image = await encodeImage("./image.jpg");
+	const base64Image = await encodeImage("./image.png");
 
 	const messages = [
 	{
@@ -66,7 +68,8 @@ async function main() {
 	const response = await openai.chat.completions.create({
 		model: "gemini-2.0-pro-exp-02-05",
 		messages: messages,
-		temperature:0.3,
+		temperature:0.1,
+		top_p:0.3,
 		max_tokens: 8192,
 	});
 
